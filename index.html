@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>고양이의 감시일지</title>
+    <link href="https://fonts.googleapis.com/css2?family=DungGeunMo&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- 🔴 녹화중 표시 -->
+<div class="rec">REC ●</div>
+
+<!-- 제목 -->
+<h1 class="title"> <고양이의 감시일지> </h1>
+
+<!-- 로딩 텍스트 -->
+<div class="loading-wrapper">
+<div class="loading">Loading…</div>
+
+<!-- 캠 연결중 텍스트 -->
+<div class="cam-status">CAM 연결중...</div>
+
+<!-- 집사 탐지 완료! 텍스트 -->
+<div class="detected-message">집사탐지완료!</div>
+
+<img class="cat-image" src="images/leohd.jpg" alt="감시 중인 고양이">
+
+<!-- 씨씨티비 화면 4개 -->
+<div class="cctv-grid">
+
+<!--CAM1-->
+    <div class="cctv-feed">
+        <div class="cam-id">CAM 1</div>
+        <div class="rec-indicator"><span class="rec-dot">●</span> REC</div>
+        <div class="timestamp">2025-04-22 | 07:34:32</div>
+        <video src="videos/CAM1.mp4" autoplay muted loop></video>
+    </div>
+     <div class="scanline"></div>
+<!--CAM2-->
+    <div class="cctv-feed offset">
+        <div class="cam-id">CAM 2</div>
+        <div class="rec-indicator"><span class="rec-dot">●</span> REC</div>
+        <div class="timestamp">2025-04-22 | 12:04:30</div>
+        <video src="videos/CAM2.mp4" autoplay muted loop></video>
+    </div>
+    <div class="scanline"></div>
+<!--CAM3-->
+    <div class="cctv-feed">
+        <div class="cam-id">CAM 3</div>
+        <div class="rec-indicator"><span class="rec-dot">●</span> REC</div>
+        <div class="timestamp">2025-04-22 | 20:34:11</div>
+
+        <video src="videos/CAM3.mp4" autoplay muted loop></video>
+    </div>
+    <div class="scanline"></div>
+<!--CAM4-->
+    <div class="cctv-feed offset">
+        <div class="cam-id">CAM 4</div>
+        <div class="rec-indicator"><span class="rec-dot">●</span> REC</div>
+        <div class="timestamp">2025-04-22 | 22:14:32</div>
+
+        <video src="videos/CAM4.mp4" autoplay muted loop></video>
+    </div>
+    <div class="scanline"></div>
+  </div>
+  
+
+<!-- 스캔라인 애니메이션 -->
+<div class="scanline"></div>
+
+<!-- 날짜 텍스트 -->
+<div class="cam-info">CAM 01 | 2025-04-22 16:23:01</div>
+ 
+<!--고양이 관찰-->
+<div class="cat-section">
+    <div class="cat-wrapper">
+      <img class="leo-image" src="images/leo.jpg" alt="감시 중인 고양이">
+      <div class="speech-bubble">
+      <span class="typing-text">오늘도 관찰을 시작합니다 . . .</span>
+    </div>
+  </div>
+
+  <!--일상 1-->
+<div class="cctv-static cctv-sleep">
+  <div class="cctv-header">
+    <span class="rec-dot">● REC</span>
+    <span>2025-04-22 07:34:32</span>
+  </div>
+  <div class="signal-status">SIGNAL: STABLE</div>
+
+  <img class="cctv-image" src="images/sleep.jpg" alt="침실 CCTV" >
+  <div class="motion-highlight"></div>
+
+  <div class="cctv-label">CAM 01 - Room</div>
+</div>
+<div class="log-box log-sleep">
+    [07:01:12] 움직임 없음<br>
+    [07:03:44] 고양이 출현<br>
+    [07:04:10] 의심스러운 움직임 감지
+  </div>
+  
+  <div class="ai-box ai-sleep">
+    ▶ 객체 분석 결과<br>
+    - 인간 탐지됨 (정확도 86%)<br>
+    - 상태: 수면 중<br>
+    - 위치: 침대 우측<br>
+    - 3번째 알람도 무시<br>
+    - 기상 시간 평균보다 7분 지연<br>
+    - 여전히 이불 속에 갇혀있음<br>
+    - 의지 약화 단계로 분류
+  </div>
+  
+<!--일상 2-->
+<div class="cctv-static cctv-eat">
+    <div class="cctv-header">
+      <span class="rec-dot">● REC</span>
+      <span>2025-04-22 12:04:30</span>
+    </div>
+    <div class="signal-status">SIGNAL: STABLE</div>
+  
+    <img class="cctv-image" src="images/eat.jpg" alt="주방 CCTV" >
+    <div class="motion-highlight"></div>
+  
+    <div class="cctv-label">CAM 02 - Kitchen</div>
+  </div>
+  <div class="log-box log-eat">
+    [12:04:12] 대상자, 식탁 접근<br>
+    [12:04:28] 식사 개시 (젓가락 감지)<br>
+    [12:05:35] 씹는 속도 안정적<br>
+    [12:07:22] 대상자, 반찬 리필 시도<br>
+    [12:08:40] 입꼬리 상승 감지 → 맛있음으로 추정<br>
+    [12:09:50] 식사 종료 후 의자 밀림 감지
+    </div>
+    
+    <div class="ai-box ai-eat">
+        ▶ 객체 분석 결과<br>
+        - 인간 탐지됨 (정확도 99%)<br>
+        - 상태: 식사 중<br>
+        - 식사 속도: 평균 1.4초 / 한 입<br>
+        - 주 메뉴: 김치찌개 + 계란말이<br>
+        - 특이사항: 반찬 편식 많음<br>
+        -식사 만족도 분석 중... → 결과: 매우 만족
+    </div>
+
+
+    <!--일상 3-->
+<div class="cctv-static cctv-watch">
+    <div class="cctv-header">
+      <span class="rec-dot">● REC</span>
+      <span>2025-04-22 20:34:11</span>
+    </div>
+    <div class="signal-status">SIGNAL: STABLE</div>
+  
+    <img class="cctv-image" src="images/watch2.jpg" alt="거실 CCTV" >
+    <div class="motion-highlight"></div>
+  
+    <div class="cctv-label">CAM 03 - Living Room</div>
+  </div>
+  <div class="log-box log-watch">
+    [20:14:05] 대상자, 소파 착석 감지<br>
+  [20:14:16] 리모컨 조작 → TV 전원 ON<br>
+  [20:15:30] 화면 밝기 변화 감지 → 영상 시청 중<br>
+  [20:16:45] 웃음 감지 (입꼬리 상승 + 어깨 진동)<br>
+  [20:18:10] 과자 섭취 시작<br>
+  [20:25:00] 정자세 유지 → 몰입도 상승 추정
+    </div>
+    
+    <div class="ai-box ai-eat">
+        ▶ 객체 분석 결과<br>
+        - 인간 탐지됨 (정확도 98%)<br>
+        - 상태: 영상 시청 중<br>
+        - 몰입도 지수: ★★★★☆<br>
+        - 반응: 미소 + 고개 끄덕임 다수 감지<br>
+        - 시청 콘텐츠: 드라마 또는 예능으로 추정<br>
+        - 특이사항: 간식 2회 섭취, TV 리모컨 장악
+    </div>
+
+ <!--일상 4-->
+ <div class="cctv-static cctv-study">
+    <div class="cctv-header">
+      <span class="rec-dot">● REC</span>
+      <span>2025-04-22 22:14:32</span>
+    </div>
+    <div class="signal-status">SIGNAL: STABLE</div>
+  
+    <img class="cctv-image" src="images/study.jpg" alt="책상 CCTV" >
+    <div class="motion-highlight"></div>
+  
+    <div class="cctv-label">CAM 04 - Desk</div>
+  </div>
+  <div class="log-box log-study">
+    [22:15:10] 대상자, 노트북 활성화<br>
+  [22:18:32] 키보드 타이핑 시작<br>
+  [22:38:45] 집중 모드 진입 감지 (시선 고정 + 무표정)<br>
+  [22:56:12] 손 움직임 속도 증가 → 아이디어 정리 중<br>
+  [23:08:30] 한숨 감지 → 어려운 구간 진입<br>
+  [23:10:44] 음료 섭취 → 집중 유지 시도<br>
+  [23:12:18] 마우스 클릭 증가 → 자료 검색 중
+    </div>
+    
+    <div class="ai-box ai-study">
+        ▶ 객체 분석 결과<br>
+     - 인간 탐지됨 (정확도 97%)<br>
+     - 상태: 과제 수행 중<br>
+     - 집중도 지수: ★★☆☆☆<br>
+     - 타이핑 속도: 평균 55타/분<br>
+     - 표정 분석: 진지함 + 약간의 혼란<br>
+     - 환경 분석: 주변 정숙, 배경 음악 노동요<br>
+     - 예측: 과제 마감 12시간 이내로 추정됨
+    </div>
+
+    <!--일상 5-->
+ <div class="cctv-static cctv-sleeping">
+    <div class="cctv-header">
+      <span class="rec-dot">● REC</span>
+      <span>2025-04-23 00:47:39</span>
+    </div>
+    <div class="signal-status">SIGNAL: STABLE</div>
+  
+    <img class="cctv-image" src="images/sleeping.jpg" alt="침실 CCTV" >
+    <div class="motion-highlight"></div>
+  
+    <div class="cctv-label">CAM 05 - Room</div>
+  </div>
+  <div class="log-box log-sleeping">
+    [00:48:10] 대상자, 침대 접근<br>
+  [00:49:35] 조명 OFF 감지 → 휴식 모드 진입<br>
+  [00:51:02] 심박·호흡 안정화 → 수면 개시 추정<br>
+  [01:17:45] 뒤척임 감지 (+2 cm 이동)<br>
+  [02:03:11] 깊은 수면 단계 진입(REM)<br>
+  [03:28:57] 고양이, 베개 점령 시도 ⚠<br>
+    </div>
+    
+    <div class="ai-box ai-sleeping">
+        ▶ 객체 분석 결과<br>
+        - 인간 탐지됨 (정확도 93 %)<br>
+        - 상태 : 숙면 중 (깊은 수면 87 %)<br>
+        - 뒤척임 횟수 : 2회 / 시간<br>
+        - 평균 호흡수 : 12 회/분<br>
+        - 특이사항 : 고양이 접근으로 베개 영역 침범<br>
+        - 예측 기상 시각 : 07 : 10 ± 5 분
+    </div>
+
+
+
+
+    <section class="daily-summary">
+        <h2 class="summary-title"> ◆ TODAY REPORT – 2025‑04‑22 ◆</h2>
+      
+        <div class="summary-block">
+          <h3>👤 집사 행동 타임라인</h3>
+          <ul class="timeline">
+            <li>[07:15] 기상 – 침실 이탈</li>
+            <li>[12:04] 점심 – 주방 CCTV 감지</li>
+            <li>[20:14] 여가 – TV 시청</li>
+            <li>[22:15] 과제 – 노트북 활성화</li>
+            <li>[00:51] 취침 – 수면 모니터링</li>
+          </ul>
+        </div>
+      
+        <div class="summary-block">
+          <h3>📊 집사 상태 분석</h3>
+          <table class="ai-table">
+            <tr><th>장면</th><th>상태</th><th>특이사항</th></tr>
+            <tr><td>기상</td><td>반 수면</td><td>기절 일보 직전</td></tr>
+            <tr><td>점심 식사</td><td>식사 중</td><td>반찬 리필 3회</td></tr>
+            <tr><td>TV 시청</td><td>여가</td><td>웃음 11회 감지</td></tr>
+            <tr><td>과제</td><td>집중</td><td>최대 집중 15분</td></tr>
+            <tr><td>수면</td><td>숙면</td><td>뒤척임 2회</td></tr>
+          </table>
+        </div>
+      
+        <div class="summary-block">
+          <h3>🔔 주요 이벤트</h3>
+          <p>
+            • 고양이 베개 점령 시도 (03:28)<br>
+            • 반찬 리필 과다 섭취 경고 (12:07)<br>
+            • 집중력 저하 한숨 감지 (21:08)
+          </p>
+        </div>
+      </section>
+      
+<!-- 눈 감기는 장면 사진들 -->
+<div class="sleepcat-scene">
+    <img src="images/sleeping.jpg" class="cat-eyes" alt="고양이 눈">
+    <img src="images/sleepingcat.png" class="cat-eyes" alt="고양이 눈">
+    <img src="images/sleepingcat1.png" class="cat-eyes" alt="고양이 눈">
+    <img src="images/sleeping.jpg" class="cat-eyes" alt="고양이 눈">
+    <img src="images/sleepingcat1.png" class="cat-eyes" alt="고양이 눈">
+    <img src="images/sleepingcat2.png" class="cat-eyes" alt="고양이 눈">
+  </div>
+
+
+<!-- 눈 감기는 장면 애니메이션 -->
+<div class="sleep-scene">
+    <img src="images/sleeping.jpg" class="cat-eye" alt="고양이 눈">
+  </div>
+  
+  <img class="noise-gif" src="images/last_noise.gif" alt="연결끊김">
+
+  <!-- NO‑SIGNAL GIF 밑에 삽입 -->
+<div class="camoff-wrapper">
+    <span class="camoff-text">CAM OFF . . .</span>
+  </div>
+  
+  <div class="finish-wrapper">
+    <span class="finish-text">관찰종료</span>
+  </div>
+
+
+</body>
+</html>

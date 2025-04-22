@@ -1,0 +1,1284 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: black;
+    color: white;
+    font-family: 'Courier New', monospace;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    min-height: 30500px; /* 원하는 만큼 높이 설정 */
+      
+  }
+  
+  /* 전체 콘텐츠를 감쌀 컨테이너 */
+  .container {
+    width: 100%;
+    max-width: 1920px;
+    margin: 0 auto;
+    padding: 0 20px; /* 좌우 여백 주면 보기 좋아져 */
+    box-sizing: border-box;
+  }
+  
+
+
+
+
+.title {
+  position: relative;
+  color: white;
+  text-align: center;
+  margin-top: 150px;
+  font-size: 8em;
+  animation: crtFlicker 1s ease-in-out 3 forwards;
+  /*1초 동안 깜빡이는 애니메이션을 3번 반복, 마지막 상태(opacity: 1)로 멈춤*/
+  /*forwards: 애니메이션이 끝난 후 마지막 상태를 유지*/
+
+
+  text-shadow:
+    1px 0 red,
+    -1px 0 cyan,
+    0 1px lime;
+  filter: contrast(1.2) brightness(1.2);
+}
+
+/*text-shadow에 RGB 테두리 효과를 줘서 색이 분산된 느낌
+Courier New, monospace 같은 글꼴은 컴퓨터 느낌 살려줌
+filter: contrast/brightness로 쨍한 빛 조절*/
+
+
+/*crtFlicker 애니메이션으로 부드럽게 깜빡거리다 멈춤*/
+/* 깜빡이는 CRT flicker 효과 */
+@keyframes crtFlicker {
+  0%   { opacity: 0.2; }
+  20%  { opacity: 1; }
+  40%  { opacity: 0.3; }
+  60%  { opacity: 1; }
+  80%  { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: repeating-linear-gradient(
+      to bottom,
+      rgba(255,255,255,0.08) 0px,
+      rgba(255,255,255,0.08) 1px, /*맨 마지막 진하기 조절*/
+      transparent 1px,
+      transparent 2px
+    );
+    pointer-events: none;
+    z-index: 999;
+  }
+
+  /*body::before는 body 태그 위에 얇은 필터 레이어 하나를 겹쳐놓는 방식
+  repeating-linear-gradient로 가로줄 무늬를 아주 얇게 반복해서 CRT 화면 특유의 라인 느낌을 주는 거
+  pointer-events: none; - 화면을 클릭해도 이 레이어가 방해되지 않아
+  z-index: 999;는 위에 잘 보이게 해주는 거*/
+
+  /* 📺 노이즈 필터 효과 (TV 잡음 느낌) */
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('images/noise.gif'); /* 파일이름-소문자, 확장자 포함, 띄어쓰기 없이*/
+    opacity: 0.04;
+    mix-blend-mode: screen;
+    pointer-events: none;
+    z-index: 20;
+  }
+  
+
+
+  /* 🔴 녹화중 표시 */
+  .rec {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    color: red;
+    font-size: 2em;
+    font-weight: bold;
+    z-index: 30;
+    animation: blinkRec 1.3s infinite;
+  }
+  
+
+
+  @keyframes blinkRec {
+    0%, 50%, 100% { opacity: 1; }
+    25%, 75% { opacity: 0; }
+  }
+  
+
+
+  /* 🟢 스캔라인 애니메이션 */
+  .scanline {
+    position: fixed;
+    top: -100%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      to bottom,
+      transparent 90%,
+      rgba(255,255,255,0.05) 95%,
+      transparent 100%
+    );
+    animation: scan 4s linear infinite;
+    z-index: 25;
+    pointer-events: none;
+  }
+  
+  @keyframes scan {
+    0% { top: -100%; }
+    100% { top: 100%; }
+  }
+
+
+  @keyframes typing {
+    from { width: 0 }
+    to { width: 10ch } /* 'Loading…' 글자 수 */
+  }
+  
+  @keyframes blinkCursor {
+    0%, 100% { border-color: white; }
+  50% { border-color: transparent; }
+}
+  
+.loading-wrapper{
+    text-align: center;
+}
+
+  .loading {
+    text-align: center;
+  font-family: 'DungGeunMo', sans-serif;
+  font-size: 9em;
+  margin-top: 500px; auto 0 auto;
+  color: white;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 2px solid white; /* 커서처럼 보이게 */
+  width: 0; /* 타이핑 효과 시작 지점 */
+  max-width: 10ch;
+  display: inline-block;
+
+  /* 타이핑 애니메이션 */
+  animation-name: typing, blinkCursor;
+  animation-duration: 4s, 0.7s;
+  animation-timing-function: steps(10), step-start;
+  animation-delay: 3s, 3s; /* 타이핑은 3초 뒤, 커서는 바로 */
+  animation-iteration-count: 1, infinite;
+  animation-fill-mode: forwards, none;
+}
+
+/* 캠연결중 */
+.cam-status {
+    text-align: center;
+  font-family: 'DungGeunMo', sans-serif;
+  font-size: 7em;
+  margin-top: 500px;
+  color: white;
+  white-space: nowrap;
+
+  animation: blinkText 1.2s ease-in-out infinite;/*1.2s는 깜빡이는 속도 작을수록 빨라짐 / ease-in-out은 부드러운 점멸효과*/
+}
+ 
+@keyframes blinkText {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.1; } /* 중간에 살짝 흐려지게 완전히 사라지게 할라면 0 */
+}
+
+  @keyframes blinkCam {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.2; }
+  }
+
+  
+.cam-info {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    color: #ddd;
+    font-size: 0.9em;
+    font-family: 'Courier New', monospace;
+    z-index: 30;
+    opacity: 0.7;
+    animation: blinkRec 3.5s infinite;
+  }
+
+/*집사탐지완료*/
+  .detected-message {
+    text-align: center;
+    margin-top: 500px;
+    font-family: 'DungGeunMo', sans-serif;
+    font-size: 8em;
+    color: #00ff99;
+    text-shadow: 0 0 10px #00ff99, 0 0 20px #00ff99;
+    z-index: 100;
+
+  animation:
+  appearFlash 0.5s/*실행시간*/ ease-out 30s/*시작지연시간*/ forwards,
+    glowEffect 0.5s /*실행시간*/ ease-in-out 4 8.4s; /* 3번 반짝, 등장 직후 시작 */
+}
+
+/* 등장 효과: 번쩍이며 나타남 */
+@keyframes appearFlash {
+    0% { opacity: 0; transform:  scale(0.8); }
+    50% { opacity: 1; transform:  scale(1.1); }
+    100% { opacity: 1; transform:  scale(1); }
+  }
+  
+  /* 글로우 반짝 효과 */
+  @keyframes glowEffect {
+    0%, 100% {
+      text-shadow: none;
+    }
+    50% {
+      text-shadow:
+        0 0 10px #00ff99,
+        0 0 20px #00ff99,
+        0 0 40px #00ff99;
+    }
+  }
+
+
+@keyframes blinkCursor {
+  0%, 100% { border-color: #00ff99; }
+  50% { border-color: transparent; }
+}
+  
+  @keyframes detectFlash {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.2; transform: scale(1.2); }
+  }
+  
+  @keyframes blinkDetect {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+  
+  /*cctv화면 4개*/
+  .cctv-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    max-width: 1000px;
+    margin: 400px auto;
+    padding: 20px;
+    z-index: 50;
+  }
+  
+  .cctv-feed {
+    position: relative;
+    border: 2px solid #00ff99;
+    box-shadow: 0 0 15px #00ff99;
+    background: black;
+    overflow: hidden;
+    border-radius: 8px;
+    width: 500px;
+    height: 375px; 
+  
+  }
+  
+  .cctv-feed video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;  /* ⭐ 핵심 속성! */
+    display: block;
+    filter: grayscale(1) brightness(1.2) contrast(1.2);
+  }
+  .cctv-feed.offset video {
+    object-position: center 20%;  /* 💡 아래쪽으로 살짝 이동 */
+  }
+  /*crt스캔라인 각각 화면 4개에*/
+  .cctv-feed::before {
+    content: '';
+    position: absolute;
+    top: -100%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      to bottom,
+      transparent 90%,
+      rgba(255,255,255,0.05) 95%,
+      transparent 100%
+    );
+    animation: scan 4s linear infinite;
+    pointer-events: none;
+    z-index: 2;
+  }
+  @keyframes scan {
+    0% { top: -100%; }
+    100% { top: 100%; }
+  }
+  
+  /*노이즈 4개*/
+  .cctv-feed::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('images/green_noise.gif'); /* 실제 경로 */
+    opacity: 0.4;
+    mix-blend-mode: screen;
+    pointer-events: none;
+    z-index: 3;
+  }
+
+  /*cam1,2,3,4 텍스트*/
+  .cam-id {
+    position: absolute;
+    top: 10px;
+    left: 15px;
+    font-family: 'Courier New', monospace;
+    font-size: 1em;
+    color: #00ff40;
+    background-color: rgba(0, 0, 0, 0.22);
+    padding: 2px 6px;
+    z-index: 10;
+  }
+  
+/*각각 시간 텍스트*/
+  .timestamp {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    font-family: 'Courier New', monospace;
+    font-size: 1em;
+    color: #ccc;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 2px 6px;
+    border-radius: 4px;
+    z-index: 10;
+  }
+
+  
+  .rec-indicator {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    font-family: 'Courier New', monospace;
+    font-size: 1em;
+    color: red;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 2px 6px;
+    border-radius: 4px;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+  }
+  
+  .rec-dot {
+    margin-right: 5px;
+    animation: blinkRec 1s step-start infinite;
+  }
+  
+  @keyframes blinkRec {
+    50% { opacity: 0; }
+  }
+  
+
+  /*레오흰댕사진*/
+  .cat-image {
+    display: block;
+    margin: 100px auto 0 auto; /* 위 여백, 가운데 정렬 */
+    width: 500px; /* 크기 조절 가능 */
+    height: auto;
+    border: 4px solid #00ff99;
+    border-radius: 10px;
+    box-shadow: 0 0 20px #00ff99;
+    animation: fadeIn 1s ease-out 11s forwards; /* 등장 효과 (3초 뒤에 시작 + 1초 딜레이) */
+    opacity: 0;
+  }
+  
+  .cat-section {
+    text-align: center;
+    margin-top: 50px; /* 원하는 만큼 조절 가능 */
+  }
+  
+
+  /* 부드러운 등장 효과 */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  
+  /*레오사진*/
+  .cat-wrapper {
+    position: relative;
+    display: inline-block;
+  }
+
+  
+  
+  .speech-bubble {
+    position: absolute;
+    top: -150px; /* 고양이 위로 띄우기 */
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255, 255, 255, 0.9);
+    color: #333;
+    padding: 30px 30px; /*안쪽여백-내용이 들어가는 공간*/
+    border-radius: 20px;
+    font-family: 'DungGeunMo', sans-serif;
+    font-size: 4em; /*글자크기*/
+    box-shadow: 0 0 10px #ccc;
+    width: auto;
+    text-align: center;
+    white-space: nowrap;
+  
+    /* 생각 풍선 스타일 */
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -35px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 24px;
+      height: 24px;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 50%;
+      box-shadow: 0 0 10px white; /* 빛나는 느낌 optional */
+    }
+  
+    &::before {
+      content: '';
+      position: absolute;
+      bottom: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 12px;
+      height: 12px;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 50%;
+    }
+  }
+
+  .typing-text {
+    display: inline-block;
+    font-family: 'DungGeunMo', sans-serif;
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: 2px solid rgba(0, 0, 0, 0.75); /* 깜빡이는 커서 효과 */
+    width: 0;
+    animation: typing 3s steps(23, end) forwards, blink 0.7s step-end infinite;
+    animation-delay: 20s; /* 원하는 지연 시간 */
+  }
+  
+  /* 타이핑 효과 */
+  @keyframes typing {
+    from { width: 0; }
+    to { width: 30ch; } /* 글자 수에 맞춰서 설정 (ch = 문자 수 기준) */
+  }
+  
+  /* 커서 깜빡임 */
+  @keyframes blink {
+    50% { border-color: transparent; }
+  }
+
+
+  /*일상1*/
+  .cctv-static {
+    position: relative;
+    width: 1000px;
+    border: 2px solid white;
+    background: black;
+    padding: 30px;
+    margin: 30px auto;
+    font-family: 'Courier New', monospace;
+    color: white;
+
+    
+  }
+  .cctv-static::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: url('images/blue_noise.gif'); /* 👉 노이즈 GIF 경로 */
+    opacity: 0.25; /* ✨ 원하는 강도 조절 (0.05~0.2 추천) */
+    z-index: 2;
+    pointer-events: none;
+    background-size: cover; /* 전체에 맞게 늘리기 */
+    mix-blend-mode: screen; /* 더 자연스럽게 섞기 */
+  }
+  
+
+  
+  
+  .cctv-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 2em;
+    margin-bottom: 5px;
+  }
+
+  .cctv-header span {
+    white-space: nowrap;
+  }
+
+  .rec-dot {
+    color: red;
+    animation: blinkRec 1s step-start infinite;
+  }
+  
+  @keyframes blinkRec {
+    50% { opacity: 0; }
+  }
+  
+  .cctv-image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    display: block;
+    image-rendering: pixelated;
+    filter: contrast(1.2) brightness(0.9) grayscale(0.5);
+  }
+  
+  .cctv-label {
+    text-align: left;
+    margin-top: 5px;
+    font-size: 2em;
+    color: white;
+  }
+  /*로그메세지*/
+  .log-box {
+    font-family: monospace;
+    background: black;
+    color: lime;
+    font-size: 2em;
+    padding: 10px;
+    border: 1px solid lime;
+    width: 500px;
+    margin: 20px auto;
+    height: 180px;
+    overflow-y: auto;
+    box-shadow: 0 0 10px lime;
+    margin-top: 200px;
+    white-space: pre-line;
+  line-height: 1.0; /* 줄 간 간격도 보기 좋게! */
+  }
+
+  .signal-status {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 0.7em;
+    color: lime;
+    background: black;
+    padding: 2px 6px;
+    border: 1px solid lime;
+    z-index: 20;
+  }
+  
+
+  /*빨간 깜빡이 박스*/
+  .motion-highlight {
+    position: absolute;
+    top: 63%;
+    left: 12%;
+    width: 100px;
+    height: 100px;
+    border: 2px solid red;
+    animation: flicker 0.3s infinite;
+    z-index: 10;
+  }
+  
+  @keyframes flicker {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.2; }
+  }
+  
+  .ai-box {
+    font-family: 'Courier New', monospace;
+    font-size: 2em;
+    background: rgba(0, 0, 0, 0.7);
+    color: #00ff99;
+    padding: 10px;
+    border: 1px solid #00ff99;
+    width: 800px;
+    height: 400px;
+    margin: 15px auto;
+    border-radius: 6px;
+    white-space: pre-line;
+    margin-top: 200px;
+  line-height: 0.75; /* 줄 간 간격도 보기 좋게! */
+  }
+  
+
+
+
+  /*일상 2*/
+
+  .cctv-eat {
+    position: relative;
+    width: 1000px;
+    height: 1150px;
+    border: 2px solid white;
+    background: black;
+    padding: 30px;
+    margin: 30px auto;
+    font-family: 'Courier New', monospace;
+    color: white;
+    margin-top: 300px;
+  }
+  .cctv-static::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: url('images/blue_noise.gif'); /* 👉 노이즈 GIF 경로 */
+    opacity: 0.25; /* ✨ 원하는 강도 조절 (0.05~0.2 추천) */
+    z-index: 2;
+    pointer-events: none;
+    background-size: cover; /* 전체에 맞게 늘리기 */
+    mix-blend-mode: screen; /* 더 자연스럽게 섞기 */
+  }
+  
+
+  .cctv-eat .cctv-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 2em;
+    margin-bottom: 5px;
+  }
+  
+  .cctv-eat .cctv-header span {
+    white-space: nowrap;
+  }
+  
+  .cctv-eat .rec-dot {
+    color: red;
+    animation: blinkRec 1s step-start infinite;
+  }
+  
+  @keyframes blinkRec {
+    50% { opacity: 0; }
+  }
+  
+  .cctv-eat .cctv-image {
+    width: 80%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    object-fit: cover;
+    display: block;
+    image-rendering: pixelated;
+    filter: contrast(1.2) brightness(0.9) grayscale(0.5);
+  }
+  
+  .cctv-eat .motion-highlight {
+    position: absolute;
+    top: 15%;
+    left: 45%;
+    width: 100px;
+    height: 100px;
+    border: 2px solid red;
+    animation: flicker 0.3s infinite;
+    z-index: 10;
+  }
+  
+  @keyframes flicker {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.2; }
+  }
+  
+  .cctv-eat .signal-status {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 0.7em;
+    color: lime;
+    background: black;
+    padding: 2px 6px;
+    border: 1px solid lime;
+    z-index: 20;
+  }
+  
+  .cctv-eat .cctv-label {
+    text-align: left;
+    margin-top: 5px;
+    font-size: 2em;
+    color: white;
+  }
+  
+  .log-eat {
+    font-family: monospace;
+    background: black;
+    color: lime;
+    font-size: 2em;
+    padding: 10px;
+    border: 1px solid lime;
+    width: 600px;
+    margin: 20px auto;
+    height: 350px;
+    margin-top: 200px;
+    overflow-y: auto;
+    box-shadow: 0 0 10px lime;
+    white-space: pre-line;
+  }
+  
+  .ai-eat {
+    font-family: 'Courier New', monospace;
+    font-size: 2em;
+    background: rgba(0, 0, 0, 0.7);
+    color: #00ff99;
+    padding: 10px;
+    border: 1px solid #00ff99;
+    width: 800px;
+    height: 360px;
+    margin: 30px auto 0 auto;
+    margin-top: 200px;
+    border-radius: 6px;
+    white-space: pre-line;
+  }
+  
+
+  /*일상 3*/
+
+  .cctv-watch {
+    position: relative;
+    width: 1000px;
+    height: 820px;
+    border: 2px solid white;
+    background: black;
+    padding: 30px;
+    margin: 30px auto;
+    font-family: 'Courier New', monospace;
+    color: white;
+    margin-top: 300px;
+  }
+  .cctv-static::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: url('images/blue_noise.gif'); /* 👉 노이즈 GIF 경로 */
+    opacity: 0.25; /* ✨ 원하는 강도 조절 (0.05~0.2 추천) */
+    z-index: 2;
+    pointer-events: none;
+    background-size: cover; /* 전체에 맞게 늘리기 */
+    mix-blend-mode: screen; /* 더 자연스럽게 섞기 */
+  }
+  
+
+  .cctv-watch .cctv-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 2em;
+    margin-bottom: 5px;
+  }
+  
+  .cctv-watch .cctv-header span {
+    white-space: nowrap;
+  }
+  
+  .cctv-watch .rec-dot {
+    color: red;
+    animation: blinkRec 1s step-start infinite;
+  }
+  
+  @keyframes blinkRec {
+    50% { opacity: 0; }
+  }
+  
+  .cctv-watch .cctv-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    object-fit: cover;
+    display: block;
+    image-rendering: pixelated;
+    filter: contrast(1.2) brightness(0.9) grayscale(0.5);
+  }
+  
+  .cctv-watch .motion-highlight {
+    position: absolute;
+    top: 40%;
+    left: 15%;
+    width: 100px;
+    height: 100px;
+    border: 2px solid red;
+    animation: flicker 0.3s infinite;
+    z-index: 10;
+  }
+  
+  @keyframes flicker {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.2; }
+  }
+  
+  .cctv-watch .signal-status {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 0.7em;
+    color: lime;
+    background: black;
+    padding: 2px 6px;
+    border: 1px solid lime;
+    z-index: 20;
+  }
+  
+  .cctv-watch .cctv-label {
+    text-align: left;
+    margin-top: 5px;
+    font-size: 2em;
+    color: white;
+  }
+  
+  .log-watch {
+    font-family: monospace;
+    background: black;
+    color: lime;
+    font-size: 2em;
+    padding: 10px;
+    border: 1px solid lime;
+    width: 650px;
+    margin: 20px auto;
+    height: 340px;
+    margin-top: 200px;
+    overflow-y: auto;
+    box-shadow: 0 0 10px lime;
+    white-space: pre-line;
+  }
+  
+  .ai-watch {
+    font-family: 'Courier New', monospace;
+    font-size: 2em;
+    background: rgba(0, 0, 0, 0.7);
+    color: #00ff99;
+    padding: 10px;
+    border: 1px solid #00ff99;
+    width: 800px;
+    height: 400px;
+    margin: 30px auto 0 auto;
+    margin-top: 200px;
+    border-radius: 6px;
+    white-space: pre-line;
+  }
+
+  /*일상 4*/
+
+  .cctv-study {
+    position: relative;
+    width: 1000px;
+    height: 1070px;
+    border: 2px solid white;
+    background: black;
+    padding: 30px;
+    margin: 30px auto;
+    font-family: 'Courier New', monospace;
+    color: white;
+    margin-top: 300px;
+  }
+  .cctv-study::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: url('images/blue_noise.gif'); /* 👉 노이즈 GIF 경로 */
+    opacity: 0.2; /* ✨ 원하는 강도 조절 (0.05~0.2 추천) */
+    z-index: 2;
+    pointer-events: none;
+    background-size: cover; /* 전체에 맞게 늘리기 */
+    mix-blend-mode: screen; /* 더 자연스럽게 섞기 */
+  }
+  
+
+  .cctv-study .cctv-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 2em;
+    margin-bottom: 5px;
+  }
+  
+  .cctv-study .cctv-header span {
+    white-space: nowrap;
+  }
+  
+  .cctv-study .rec-dot {
+    color: red;
+    animation: blinkRec 1s step-start infinite;
+  }
+  
+  @keyframes blinkRec {
+    50% { opacity: 0; }
+  }
+  
+  .cctv-study .cctv-image {
+    width: 75%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    object-fit: cover;
+    display: block;
+    image-rendering: pixelated;
+    filter: contrast(1.2) brightness(0.9) grayscale(0.5);
+  }
+  
+  .cctv-study .motion-highlight {
+    position: absolute;
+    top: 35%;
+    left: 27%;
+    width: 100px;
+    height: 100px;
+    border: 2px solid red;
+    animation: flicker 0.3s infinite;
+    z-index: 10;
+  }
+  
+  @keyframes flicker {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.2; }
+  }
+  
+  .cctv-study .signal-status {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 0.7em;
+    color: lime;
+    background: black;
+    padding: 2px 6px;
+    border: 1px solid lime;
+    z-index: 20;
+  }
+  
+  .cctv-study .cctv-label {
+    text-align: left;
+    margin-top: 5px;
+    font-size: 2em;
+    color: white;
+  }
+  
+  .log-study {
+    font-family: monospace;
+    background: black;
+    color: lime;
+    font-size: 2em;
+    padding: 10px;
+    border: 1px solid lime;
+    width: 700px;
+    margin: 20px auto;
+    height: 400px;
+    margin-top: 200px;
+    overflow-y: auto;
+    box-shadow: 0 0 10px lime;
+    white-space: pre-line;
+  }
+  
+  .ai-study {
+    font-family: 'Courier New', monospace;
+    font-size: 2em;
+    background: rgba(0, 0, 0, 0.7);
+    color: #00ff99;
+    padding: 10px;
+    border: 1px solid #00ff99;
+    width: 800px;
+    height: 400px;
+    margin: 30px auto 0 auto;
+    margin-top: 200px;
+    border-radius: 6px;
+    white-space: pre-line;
+  }
+
+  /*일상 5*/
+
+  .cctv-sleeping {
+    position: relative;
+    width: 1000px;
+    height: 830px;
+    border: 2px solid white;
+    background: black;
+    padding: 30px;
+    margin: 30px auto;
+    font-family: 'Courier New', monospace;
+    color: white;
+    margin-top: 300px;
+  }
+  .cctv-sleeping::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: url('images/blue_noise.gif'); /* 👉 노이즈 GIF 경로 */
+    opacity: 0.1; /* ✨ 원하는 강도 조절 (0.05~0.2 추천) */
+    z-index: 2;
+    pointer-events: none;
+    background-size: cover; /* 전체에 맞게 늘리기 */
+    mix-blend-mode: screen; /* 더 자연스럽게 섞기 */
+  }
+  
+
+  .cctv-sleeping .cctv-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 2em;
+    margin-bottom: 5px;
+  }
+  
+  .cctv-sleeping .cctv-header span {
+    white-space: nowrap;
+  }
+  
+  .cctv-sleeping .rec-dot {
+    color: red;
+    animation: blinkRec 1s step-start infinite;
+  }
+  
+  @keyframes blinkRec {
+    50% { opacity: 0; }
+  }
+  
+  .cctv-sleeping .cctv-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    object-fit: cover;
+    display: block;
+    image-rendering: pixelated;
+    filter: contrast(1.2) brightness(0.9) grayscale(0.5);
+  }
+  
+  .cctv-sleeping .motion-highlight {
+    position: absolute;
+    top: 55%;
+    left: 11%;
+    width: 100px;
+    height: 100px;
+    border: 2px solid red;
+    animation: flicker 0.3s infinite;
+    z-index: 10;
+  }
+  
+  @keyframes flicker {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.2; }
+  }
+  
+  .cctv-sleeping .signal-status {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 0.7em;
+    color: lime;
+    background: black;
+    padding: 2px 6px;
+    border: 1px solid lime;
+    z-index: 20;
+  }
+  
+  .cctv-sleeping .cctv-label {
+    text-align: left;
+    margin-top: 5px;
+    font-size: 2em;
+    color: white;
+  }
+  
+  .log-sleeping {
+    font-family: monospace;
+    background: black;
+    color: lime;
+    font-size: 2em;
+    padding: 10px;
+    border: 1px solid lime;
+    width: 700px;
+    margin: 20px auto;
+    height: 340px;
+    margin-top: 200px;
+    overflow-y: auto;
+    box-shadow: 0 0 10px lime;
+    white-space: pre-line;
+  }
+  
+  .ai-sleeping {
+    font-family: 'Courier New', monospace;
+    font-size: 2em;
+    background: rgba(0, 0, 0, 0.7);
+    color: #00ff99;
+    padding: 10px;
+    border: 1px solid #00ff99;
+    width: 800px;
+    height: 375px;
+    margin: 30px auto 0 auto;
+    margin-top: 200px;
+    border-radius: 6px;
+    white-space: pre-line;
+  }
+
+/*하루요약본*/
+  .daily-summary {
+    max-width: 1100px;
+    margin: 550px auto;
+    padding: 20px 30px;
+    background: #000;
+    color: #0f0;
+    font-family: 'Courier New', monospace;
+    border: 2px solid #0f0;
+    box-shadow: 0 0 20px #0f0;
+  }
+  
+  .summary-title {
+    text-align: center;
+    margin-bottom: 60px;
+    font-size: 2.5em;
+    text-shadow: 0 0 8px #0f0;
+  }
+  
+  .summary-block { margin-bottom: 25px; }
+  
+  .timeline { list-style: none; padding-left: 0; line-height: 1.7; }
+  
+  .ai-table {
+    width: 80%;
+    margin: 0 auto;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 1.5em;
+  }
+  .ai-table th, 
+  .ai-table td {
+     border: 1px solid #0f0;
+     padding: 6px 10px; 
+    }
+    
+  .ai-table th {
+     background: #022; 
+    }
+  
+  .summary-block h3 {
+    margin-bottom: 10px;
+    font-size: 2em;
+    text-shadow: 0 0 6px #0f0;
+  }
+  
+  .sleepcat-scene{
+    width: 1200px;          /* 이미지 폭에 맞게 */
+    margin: 60px auto;     /* 페이지 가운데 배치 */
+    position: relative;
+  }
+
+  /*고양이 잠들기*/
+/* 컨테이너: 크기·중앙 위치 */
+.sleep-scene{
+
+    width: 1200px;          /* 이미지 폭에 맞게 */
+    margin: 60px auto;     /* 페이지 가운데 배치 */
+    position: relative;
+  }
+  
+  /* 고양이 이미지 */
+  .cat-eyes{
+    margin-bottom: 400px;
+    display: block;
+    width: 100%;
+  }
+  .cat-eye{
+    margin-bottom: 400px;
+    display: block;
+    width: 100%;
+    height: auto;
+    filter: brightness(0.9) contrast(1.1);
+    animation: eyelid 6s ease-in-out/*스무스하게 내려옴*/ forwards;
+    animation-delay: 121s;
+  }
+  
+  /* 커튼(눈꺼풀) 애니메이션 */
+  @keyframes eyelid{
+
+    /*cilp-path-"위,오른,아래,왼" 방향으로 잘라내기*/
+    /* 0% — 눈 완전히 열림 */
+    0%   { clip-path: inset(0 0 0 0); }
+  
+    /* 30% — 1/4 가려짐 */
+    30%  { clip-path: inset(15% 0 15% 0); }
+  
+    /* 55% — 2/4 가려짐 */
+    50%  { clip-path: inset(25% 0 25% 0); }
+
+    /* 80% — 3/4 가려짐 */
+    70%  { clip-path: inset(35% 0 35% 0); }
+  
+    /* 100% — 완전히 닫힘(잠듦) */
+    100% { clip-path: inset(50% 0 50% 0); }
+
+  }
+  
+  /*no signal noise*/
+  .noise-gif{
+    width: 900px;          /* 이미지 폭에 맞게 */
+    margin: 60px auto;     /* 페이지 가운데 배치 */
+    position: relative;
+  }
+
+/*camoff text*/
+  .camoff-wrapper{
+    text-align:center;          /* 가운데 정렬 */
+    margin-top:400px;            /* 위 여백 필요하면 조정 */
+  }
+  
+  .camoff-text{
+    display:inline-block;
+    font-family: 'DungGeunMo', sans-serif;
+    font-size: 10em;             /* 크기 조절 */
+    color:white;
+    white-space:nowrap;
+    overflow:hidden;
+    border-right:2px solid white; /* 깜빡이는 커서 */
+    width:0;                    /* 타이핑 시작점 */
+    
+    /* 애니메이션 합쳐서 한 줄 */
+    animation:
+      typeCam 3s steps(15) forwards,    /* 9글자(C·A·M····) */
+      blinkCur 0.7s step-end infinite; /* 커서 깜빡임 */
+    animation-delay:130s,130s;             /* 타이핑 1초 지연, 커서는 즉시 */
+  }
+  
+  /* 타이핑 */
+  @keyframes typeCam{
+    to{width:15ch;}              /* CAM OFF... = 9글자 */
+  }
+  
+  /* 커서 깜빡임 */
+  @keyframes blinkCur{
+    50%{border-color:transparent;}
+  }
+  
+  /*마지막 텍스트*/
+  .finish-wrapper{
+    text-align:center;
+    margin-top:500px;     
+  }
+  
+  .finish-text{
+    display:inline-block;
+    font-family:'Courier New', monospace;
+    font-size:20em;
+    color:#ff4444;            /* 붉은 경고색 */
+    animation:endBlink 1s ease-out forwards;
+    animation-delay:140s;
+  }
+  
+  /* 한 번만 깜빡이고 사라짐 */
+  @keyframes endBlink{
+    0%   { opacity:0; }
+    30%  { opacity:1; }   /* 순간 번쩍 */
+    100% { opacity:0; }
+  }
+  
